@@ -39,11 +39,11 @@ public class HttpClient {
                 }
                 result = sbf.toString();
             }
-        } catch (MalformedURLException e | IOException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
-        } finally {
+        }finally {
             // 关闭资源
             if (null != br) {
                 try {
