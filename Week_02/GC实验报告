@@ -1,0 +1,74 @@
+GC实验总结报告
+实验环境
+系统：Win10 内存：8g 逻辑处理器：4核 JDK版本：15.0.1
+ 
+一、串行GC
+1.1执行命令 java -XX:+UseSerialGC -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：2763 ，GC次数：14次（YoungGC：12次，FullGC：2次）
+YoungGC平均时间：30ms
+FullGC 平均时间：84ms
+
+
+1.2  java -XX:+UseSerialGC -Xms512m -Xmx512m -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：5394，GC次数：9次（YoungGC：8次，FullGC：1次）
+YoungGC平均时间：58ms
+FullGC 平均时间：107ms
+
+
+1.3  java -XX:+UseSerialGC -Xms1g -Xmx1g -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：5292，GC次数：4次（YoungGC：4次，FullGC：0次）
+YoungGC平均时间：130ms
+FullGC 平均时间：
+
+二、并行GC
+1.1  java -XX:+UseParallelGC -XX:+PrintGCDetails GCLogAnalysis 
+生成对象次数：3016，GC次数：9次（YoungGC：7次，FullGC：2次）
+YoungGC平均时间：40ms
+FullGC 平均时间：115ms
+
+
+1.2  java -XX:+UseParallelGC -Xms512m -Xmx512m -XX:+PrintGCDetails GCLogAnalysis 
+生成对象次数：4565，GC次数：10次（YoungGC：9次，FullGC：1次）
+YoungGC平均时间：45ms
+FullGC 平均时间：150ms
+
+
+1.3  java -XX:+UseParallelGC -Xms1g -Xmx1g -XX:+PrintGCDetails GCLogAnalysis 
+生成对象次数：5354，GC次数：4次（YoungGC：4次，FullGC：0次）
+YoungGC平均时间：66ms
+FullGC 平均时间：
+
+
+
+三、CMSGC
+最新的JDK已经不支持CMS垃圾回收了
+
+四、G1GC
+1.1 java -XX:+UseG1GC -XX:+PrintGCDetails GCLogAnalysis 
+生成对象次数：841，GC次数：7次（YoungGC：6次，FullGC：1次）
+YoungGC平均时间：90ms
+FullGC 平均时间：236.445ms
+1.2java -XX:+UseG1GC -Xms512m -Xmx512m -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：1488，GC次数：6次（YoungGC：6次，FullGC：0次）
+YoungGC平均时间：105ms
+1.3 java -XX:+UseG1GC -Xms1g -Xmx1g -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：5168，GC次数：10次（YoungGC：10次，FullGC：0次）
+YoungGC平均时间：30ms
+
+
+五、ZGC
+1.1java -XX:+UseZGC -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：3042，GC次数：2次（YoungGC：6次，FullGC：0次）
+
+1.2java -XX:+UseZGC -Xms512m -Xmx512m -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：3117，GC次数：3次（YoungGC：3次，FullGC：0次）
+1.3java -XX:+UseZGC -Xms1g  -Xmx1g -XX:+PrintGCDetails GCLogAnalysis
+生成对象次数：2073，GC次数：3次（YoungGC：3次，FullGC：0次）
+
+
+
+
+结论：1、用默认的参数，效果不一定好，具体的堆内存设置，还需要根据实际进行调整；
+2、在一定范围内，增大堆内存，可以适当增加对象生成次数，增加程序的执行效率；
+3、在一定范围内，增大堆内存，可以减少gc次数，但是单次gc的时间会增加；
+4、测试的数据结果波动比较大；
