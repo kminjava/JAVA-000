@@ -13,12 +13,13 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     private static Logger logger = LoggerFactory.getLogger(HttpInboundHandler.class);
     private final String proxyServer;
     private HttpOutboundHandler handler;
-    private HttpRequestFilter filter;
+    private HttpRequestFilterHandler filter;
 
     public HttpInboundHandler(String proxyServer) {
         this.proxyServer = proxyServer;
         
         handler =new HttpOutboundHandler(this.proxyServer);
+        httpRequestFilter = new HttpRequestFilterHandler();
     }
 
     @Override
@@ -30,7 +31,11 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         try {
             FullHttpRequest fullRequest = (FullHttpRequest) msg;
-            //TODO 添加filter，request头里面添加key,value(nio:xwt)
+            //添加filter，request头里面添加key,value(nio:xwt)
+            if (filter != null){
+                httpRequestFilter.filter(fullRequest,ctx);
+            }
+
             handler.handle(fullRequest, ctx);
         } catch(Exception e) {
             e.printStackTrace();
