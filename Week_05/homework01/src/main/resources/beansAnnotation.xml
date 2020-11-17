@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 使用 context 命名空间 ,在配置文件中开启相应的注解处理器 -->
+    <context:annotation-config />
+
+    <bean id="userDao" class="loadBean.annotation.dao.UserDaoImpl" />
+    <bean id="userService" class="loadBean.annotation.service.UserServiceImpl" />
+
+    <!--使用 context 命名空间 ,通知Spring扫描指定包下所有Bean类，进行注解解析-->
+    <!--<context:component-scan base-package="loadBean.annotation" />-->
+
+
+</beans>
+
