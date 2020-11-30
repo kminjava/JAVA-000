@@ -29,46 +29,41 @@ public class HaikariThreadSaveTest implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("begin to insert data......");
+        showConnection();
         long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(16);
         for (int i = 0 ; i< 100;i++){
-                executor.execute(() ->{
-                    try {
-                        saveData();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                });
-            };
+            executor.execute(() ->{
+                try {
+                    saveData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        };
         executor.shutdown();
         long endTime = System.currentTimeMillis();
         System.out.println("execution time"+ (endTime - startTime)/1000.00 + "s");
 
-        }
+    }
 
 
 
 
     private void saveData() throws SQLException {
-        Connection conn = showConnection();
         long startTime = System.currentTimeMillis();
-        for(int i = 0;i<1000;i++){
+        for(int i = 0;i<10000;i++){
             jdbcTemplate.execute("insert  into summer_user (username,password,phone,email) values('小小罗','123456','13412343456','adsad@163.com')");
         }
         long endTime = System.currentTimeMillis();
         double executeTime = (endTime - startTime)/1000.00;
         log.info("child thread execution time:"+executeTime+"s");
-        conn.close();
     }
 
-    private Connection showConnection() throws SQLException {
+    private void showConnection() throws SQLException {
         log.info(dataSource.toString());
         Connection conn = dataSource.getConnection();
         log.info(conn.toString());
-        return conn;
+        conn.close();
     }
-
-
-
-
 }
