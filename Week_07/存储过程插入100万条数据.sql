@@ -21,7 +21,7 @@ set i=i+1;
  return i;
  end $$
  
- -- 创建往tb_dept_bigdata表中插入数据的存储过程
+ -- 创建往summer_user表中插入数据的存储过程
  delimiter $$ 
  drop procedure if exists insert_dept; 
  create procedure insert_dept(in start int(10),in max_num int(10)) begin declare i int default 0; 
